@@ -1,3 +1,5 @@
+[![License](https://img.shields.io/github/license/MekDrop/Kryziukai-Nuliukai.bat.svg?maxAge=2592000)](License.txt) ![GitHub release](https://img.shields.io/github/release/MekDrop/Kryziukai-Nuliukai.bat.svg?maxAge=2592000)
+
 Kryziukai-Nuliukai.bat (English)
 ======================
 
