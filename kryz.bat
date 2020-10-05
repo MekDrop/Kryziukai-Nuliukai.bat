@@ -16,6 +16,39 @@ REM ---------------------------------------- NOTE ------------------------------
 REM
 REM    This app is can run only on Windows 2000 or newer
 
+rem Setting default data
+setlocal
+set app_name=%0
+set language=en
+
+rem Parsing command line options
+:skaityti_komandines_eilutes_parametra
+SET parsed_param=%1
+shift
+if "%parsed_param%"=="" goto pradzia
+if "%parsed_param%"=="/?" goto parodyti_pagalba
+if "%parsed_param%"=="/L" goto nustatyti_kalba
+goto skaityti_komandines_eilutes_parametra
+
+:nustatyti_kalba
+set language=%1
+shift
+if exist .\lang\%language%.csv goto skaityti_komandines_eilutes_parametra
+set language=en
+echo "Warning: language not found. Switching to en."
+goto skaityti_komandines_eilutes_parametra
+
+:parodyti_pagalba
+echo.
+echo Syntax:
+echo.   %app_name% [/?] [/L CODE]
+echo.
+echo Parameters:
+echo.   /?       Show help abbout this command (what you can see now)
+echo.   /L CODE  Uses specific language (code is language short name; if not specified english is used)
+echo.
+goto pabaiga
+
 :pradzia
 rem Here we setting default values for all of our variables
 set tuscias_langelis=%%
