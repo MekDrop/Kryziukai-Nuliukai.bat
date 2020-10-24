@@ -3,13 +3,13 @@
 REM ---------------------------------------- LICENSE -------------------------------------------------------
 REM
 REM    Copyright (c) 2006-2012+, MekDrop <github@mekdrop.name>
-REM 
-REM    Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission 
+REM
+REM    Permission to use, copy, modify, and/or distribute this software for any purpose with or without fee is hereby granted, provided that the above copyright notice and this permission
 REM    notice appear in all copies.
-REM 
-REM    THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF 
-REM    MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES 
-REM    WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF 
+REM
+REM    THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+REM    MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+REM    WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF
 REM     OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
 REM
 REM ---------------------------------------- NOTE -------------------------------------------------------
@@ -20,6 +20,8 @@ rem Setting default data
 setlocal
 set app_name=%0
 set language=en
+set kalbos_failas=.\Language\%language%.csv
+chcp 65001 >NUL
 
 rem Parsing command line options
 :skaityti_komandines_eilutes_parametra
@@ -30,27 +32,38 @@ if "%parsed_param%"=="/?" goto parodyti_pagalba
 if "%parsed_param%"=="/L" goto nustatyti_kalba
 goto skaityti_komandines_eilutes_parametra
 
+:ikelti_kalba
+for /f "tokens=1,* delims=, eol=;" %%a in (%kalbos_failas%) do (
+    set vertimas[%%a]=%%b
+)
+exit /b
+
 :nustatyti_kalba
 set language=%1
 shift
-if exist .\lang\%language%.csv goto skaityti_komandines_eilutes_parametra
-set language=en
-echo "Warning: language not found. Switching to en."
+set kalbos_failas=.\Language\%language%.csv
+if not exist %kalbos_failas% (
+    set language=en
+    echo "Warning: language not found. Switching to en."
+    set kalbos_failas=.\Language\%language%.csv
+)
 goto skaityti_komandines_eilutes_parametra
 
 :parodyti_pagalba
+call :ikelti_kalba
 echo.
-echo Syntax:
-echo.   %app_name% [/?] [/L CODE]
+echo %vertimas[parodyti_pagalba.sintakse]%
+echo.   %app_name% [/?] [/L %vertimas[parodyti_pagalba.kodas]%]
 echo.
-echo Parameters:
-echo.   /?       Show help abbout this command (what you can see now)
-echo.   /L CODE  Uses specific language (code is language short name; if not specified english is used)
+echo %vertimas[parodyti_pagalba.parametrai]%
+echo.   /?       %vertimas[parodyti_pagalba.parametras.pagalba]%
+echo.   /L %vertimas[parodyti_pagalba.kodas]%  %vertimas[parodyti_pagalba.parametras.kalba]%
 echo.
 goto pabaiga
 
 :pradzia
 rem Here we setting default values for all of our variables
+call :ikelti_kalba
 set tuscias_langelis=%%
 set zaidejas1=X
 set zaidejas2=O
@@ -72,9 +85,9 @@ rem This part is used for drawing the board
 rem We need to specify value for griztam variable, before using this part (is use label names)
 cls
 echo   %e1% ! %e2% ! %e3%
-echo   - + - + - 
+echo   - + - + -
 echo   %e4% ! %e5% ! %e6%
-echo   - + - + - 
+echo   - + - + -
 echo   %e7% ! %e8% ! %e9%
 echo.
 rem If there was an error, we show this here
@@ -84,12 +97,12 @@ if NOT "%e_spc%"=="" (
    goto %e_spc%
 )
 if NOT "%klaida%"=="" (
-   echo Error: %klaida%
+   echo %vertimas[braizom.klaida]% %klaida%
    echo.
 )
 rem Here it's possible enter where to place mark
 set zenklas=%zaidejas1%
-echo Enter coordinate (1-9):
+echo %vertimas[braizom.iveskite_kordinate]%
 set /P ejimas=
 goto tikrink
 
@@ -97,82 +110,82 @@ goto tikrink
 set klaida=
 if "%ejimas%"=="1" (
     if "%e1%"=="%tuscias_langelis%" (
-	set e1=%zenklas%
-    ) else (	
-	set klaida=Such already exists!
+	    set e1=%zenklas%
+    ) else (
+	    set klaida=%vertimas[tikrink.jau_egzistuoja]%
     )
 )
 if "%ejimas%"=="2" (
     if "%e2%"=="%tuscias_langelis%" (
-	set e2=%zenklas%
+	    set e2=%zenklas%
     ) else (
-	set klaida=Such already exists!
+	    set klaida=%vertimas[tikrink.jau_egzistuoja]%
     )
 )
 if "%ejimas%"=="3" (
     if "%e3%"=="%tuscias_langelis%" (
-	set e3=%zenklas%
+	    set e3=%zenklas%
     ) else (
-	set klaida=Such already exists!
+	    set klaida=%vertimas[tikrink.jau_egzistuoja]%
     )
 )
 if "%ejimas%"=="4" (
     if "%e4%"=="%tuscias_langelis%" (
-	set e4=%zenklas%
+	    set e4=%zenklas%
     ) else (
-	set klaida=Such already exists!
+	    set klaida=%vertimas[tikrink.jau_egzistuoja]%
     )
 )
 if "%ejimas%"=="5" (
     if "%e5%"=="%tuscias_langelis%" (
-	set e5=%zenklas%
+	    set e5=%zenklas%
     ) else (
-	set klaida=Such already exists!
+	    set klaida=%vertimas[tikrink.jau_egzistuoja]%
     )
 )
 if "%ejimas%"=="6" (
     if "%e6%"=="%tuscias_langelis%" (
-	set e6=%zenklas%
+	    set e6=%zenklas%
     ) else (
-	set klaida=Such already exists!
+	    set klaida=%vertimas[tikrink.jau_egzistuoja]%
     )
 )
 if "%ejimas%"=="7" (
     if "%e7%"=="%tuscias_langelis%" (
-	set e7=%zenklas%
+	    set e7=%zenklas%
     ) else (
-	set klaida=Such already exists!
+	    set klaida=%vertimas[tikrink.jau_egzistuoja]%
     )
 )
 if "%ejimas%"=="8" (
     if "%e8%"=="%tuscias_langelis%" (
-	set e8=%zenklas%
+	    set e8=%zenklas%
     ) else (
-	set klaida=Such already exists!
+	    set klaida=%vertimas[tikrink.jau_egzistuoja]%
     )
 )
 if "%ejimas%"=="9" (
     if "%e9%"=="%tuscias_langelis%" (
-	set e9=%zenklas%
+	    set e9=%zenklas%
     ) else (
-	set klaida=Such already exists!
+	    set klaida=%vertimas[tikrink.jau_egzistuoja]%
     )
 )
 rem if entered number is lower than 1, also that was an error!
 if /I %ejimas% LSS 1 (
-   set klaida=You have entered a bad coordinate
+    set klaida=%vertimas[tikrink.bloga_koordinate]%
 )
 rem if entered number is greater than 9, also that was an error!
 if /I %ejimas% GTR 9 (
-   set klaida=You have entered a bad coordinate
+    set klaida=%vertimas[tikrink.bloga_koordinate]%
 )
 rem checking if there was a previous error
 rem if that was the computer turn, we hide all errors
 if NOT "%klaida%"=="" (
     if "%zenklas%"=="%zaidejas1%" (
-	goto braizom
+	    goto braizom
     ) else (
-	goto kompiuteris
+	    goto kompiuteris
     )
 )
 
@@ -190,21 +203,21 @@ if "%e3%%e5%%e7%" == "%zenklas%%zenklas%%zenklas%" goto laimejimas
 
 if NOT "%e1%"=="%tuscias_langelis%" (
    if NOT "%e2%"=="%tuscias_langelis%" (
-     if NOT "%e3%"=="%tuscias_langelis%" (
-        if NOT "%e4%"=="%tuscias_langelis%" (
-           if NOT "%e5%"=="%tuscias_langelis%" (
-             if NOT "%e6%"=="%tuscias_langelis%" (
-	        if NOT "%e7%"=="%tuscias_langelis%" (
-                   if NOT "%e8%"=="%tuscias_langelis%" (
-	              if NOT "%e9%"=="%tuscias_langelis%" (
-		         goto lygiosios
-                      )
-           	   )
-         	)
-    	     )
-  	   )
-	)
-     )
+        if NOT "%e3%"=="%tuscias_langelis%" (
+            if NOT "%e4%"=="%tuscias_langelis%" (
+                if NOT "%e5%"=="%tuscias_langelis%" (
+                    if NOT "%e6%"=="%tuscias_langelis%" (
+	                    if NOT "%e7%"=="%tuscias_langelis%" (
+                            if NOT "%e8%"=="%tuscias_langelis%" (
+	                            if NOT "%e9%"=="%tuscias_langelis%" (
+		                            goto lygiosios
+                                )
+           	                )
+         	            )
+    	            )
+  	            )
+	        )
+        )
    )
 )
 
@@ -222,9 +235,9 @@ goto tikrink
 
 :laimejimas
 if "%zenklas%"=="%zaidejas1%" (
-  set emsg=Player wins!
+    set emsg=%vertimas[laimejimas.zaidejas]%
 ) else (
-  set emsg=Computer wins!
+    set emsg=%vertimas[laimejimas.kompiuteris]%
 )
 
 set e_spc=arzaistidar
@@ -232,24 +245,20 @@ echo.
 echo.
 goto braizom
 
-:lygiosios 
-set emsg=Draw
+:lygiosios
+set emsg=%vertimas[lygiosios.lygiosios]%
 set e_spc=arzaistidar
 echo.
 echo.
 goto braizom
 
 :arzaistidar
-echo Do You want to play again (yes/no)? 
+echo %vertimas[arzaistidar.klausimas]%
 set /p ats=
-if "%ats%" == "yes" goto pradzia
-if "%ats%" == "YES" goto pradzia
-if "%ats%" == "y" goto pradzia
-if "%ats%" == "Y" goto pradzia
-if "%ats%" == "no" goto pabaiga
-if "%ats%" == "NO" goto pabaiga
-if "%ats%" == "n" goto pabaiga
-if "%ats%" == "N" goto pabaiga
+if "%ats%" == "%vertimas[arzaistidar.taip]%" goto pradzia
+if "%ats%" == "%vertimas[arzaistidar.taip]:~0,1%" goto pradzia
+if "%ats%" == "%vertimas[arzaistidar.ne]%" goto pabaiga
+if "%ats%" == "%vertimas[arzaistidar.ne]:~0,1%" goto pabaiga
 cls
 goto arzaistidar
 

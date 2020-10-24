@@ -1,0 +1,16 @@
+﻿
+parodyti_pagalba.sintakse,Sintaksė:
+parodyti_pagalba.kodas,KODAS
+parodyti_pagalba.parametrai,Parametrai:
+parodyti_pagalba.parametras.pagalba, Parodo pagalba apie šią komandą (kitaip sakant - tai, ką dabar matote)
+parodyti_pagalba.parametras.kalba,Liepia įkrauti pasirinktą kalbą (trumpas kalbos kodas čia turėtų būti nurodytas; jei nenurodyta anglų kalba naudojama)
+braizom.klaida,Klaida:
+braizom.iveskite_kordinate,Įveskite koordinatę (1-9):
+tikrink.jau_egzistuoja,Toks jau yra!
+tikrink.bloga_koordinate,Ivesta bloga kordinate
+laimejimas.zaidejas,Zaidejas laimejo
+laimejimas.kompiuteris,Kompiuteris laimejo
+lygiosios.lygiosios,Lygiosios
+arzaistidar.klausimas,Ar norite zaisti dar (taip/ne)?
+arzaistidar.taip,taip
+arzaistidar.ne,ne
